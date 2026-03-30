@@ -1,0 +1,29 @@
+{
+  "name": "my-stake",
+  "version": "1.0.0",
+  "description": "MonoRepo with TypeScript (client, ws-gateway) and Java (server)",
+  "private": true,
+  "workspaces": [
+    "client",
+    "ws-gateway"
+  ],
+  "scripts": {
+    "install:all": "cd server && mvn clean install && pnpm install",
+    "build": "pnpm -r build && cd server && mvn clean package",
+    "build:client": "pnpm --filter client build",
+    "build:gateway": "pnpm --filter ws-gateway build",
+    "build:server": "cd server && mvn clean package",
+    "dev": "pnpm run dev:all",
+    "dev:all": "concurrently \"pnpm --filter client dev\" \"pnpm --filter ws-gateway dev\" \"cd server && mvn spring-boot:run\"",
+    "dev:client": "pnpm --filter client dev",
+    "dev:gateway": "pnpm --filter ws-gateway dev",
+    "dev:server": "cd server && mvn spring-boot:run",
+    "lint": "pnpm -r lint",
+    "lint:client": "pnpm --filter client lint",
+    "start": "pnpm build && pnpm -r start",
+    "clean": "pnpm -r exec rm -rf dist build node_modules .next && cd server && mvn clean && rm -rf target"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
